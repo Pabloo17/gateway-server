@@ -1,0 +1,26 @@
+server:
+  port: 8090
+
+
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      routes:
+        - id: products-service
+          uri: lb://products-service #ruta al microservicio al poner lb (load balancer) delante elige la mejor instancia
+          predicates:
+          - Path=/api/products/**  # ruta para acceder a la API
+          filters:
+          - StripPrefix=2 # el numero tiene que coincidir con el numero de elementos de predicates (/api *1* /products *2*)
+        - id: items-service
+          uri: lb://items-service
+          predicates:
+          - Path=/api/items/**  
+          filters:
+          - StripPrefix=2 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
