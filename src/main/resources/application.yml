@@ -14,6 +14,11 @@ spring:
           - Path=/api/products/**  # ruta para acceder a la API
           filters:
           - StripPrefix=2 # el numero tiene que coincidir con el numero de elementos de predicates (/api *1* /products *2*)
+          - name: SampleCookie
+            args:
+              message: Cookie message
+              name: user
+              value: Pablo
         - id: items-service
           uri: lb://items-service
           predicates:
