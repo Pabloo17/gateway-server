@@ -10,8 +10,12 @@ spring:
       routes:
         - id: products-service
           uri: lb://products-service #ruta al microservicio al poner lb (load balancer) delante elige la mejor instancia
-          predicates:
+          predicates: #condiciones que tiene que cumplir la request para ser aceptada
           - Path=/api/products/**  # ruta para acceder a la API
+#          - Header=token, 12345 # también acepta expresiones regulares como \d+ (solo dígitos)
+#          - Method=GET, POST
+#          - Query=color, verde
+#          - Cookie=color, azul
           filters:
           - StripPrefix=2 # el numero tiene que coincidir con el numero de elementos de predicates (/api *1* /products *2*)
           - name: SampleCookie
@@ -25,6 +29,9 @@ spring:
           - Path=/api/items/**  
           filters:
           - StripPrefix=2 
+          - AddRequestHeader=token-request, fdsafa
+          - AddResponseHeader=token-response, 2453548
+          - AddRequestParameter= name, Pablo
 eureka:
   client:
     serviceUrl:
